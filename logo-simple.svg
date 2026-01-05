@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4"/>
+      <stop offset="50%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#ec4899"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="64" cy="64" r="60" fill="#0f172a"/>
+  <circle cx="64" cy="64" r="58" fill="none" stroke="url(#grad)" stroke-width="2" opacity="0.7"/>
+  
+  <!-- Hexagon outline -->
+  <path d="M64 16 L108 40 L108 88 L64 112 L20 88 L20 40 Z" 
+        fill="none" 
+        stroke="url(#grad)" 
+        stroke-width="3" 
+        stroke-linejoin="round"
+        opacity="0.6"/>
+  
+  <!-- Flow dots (left) -->
+  <circle cx="28" cy="52" r="5" fill="#06b6d4"/>
+  <circle cx="24" cy="64" r="5" fill="#8b5cf6"/>
+  <circle cx="28" cy="76" r="5" fill="#ec4899"/>
+  
+  <!-- Flow lines -->
+  <path d="M33 52 L48 58" fill="none" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/>
+  <path d="M29 64 L48 64" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"/>
+  <path d="M33 76 L48 70" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Central transform box -->
+  <rect x="48" y="50" width="32" height="28" rx="4" fill="#1e293b" stroke="url(#grad)" stroke-width="2"/>
+  
+  <!-- Arrow -->
+  <path d="M54 64 L70 64 M64 58 L70 64 L64 70" fill="none" stroke="#f8fafc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Policy output (right) -->
+  <g transform="translate(86, 48)">
+    <rect x="0" y="0" width="20" height="26" rx="2" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <line x1="4" y1="6" x2="16" y2="6" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="4" y1="11" x2="14" y2="11" stroke="#06b6d4" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <line x1="4" y1="16" x2="12" y2="16" stroke="#06b6d4" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <!-- Shield -->
+    <path d="M10 19 L10 22 Q10 25, 13 26 Q16 25, 16 22 L16 19 Z" fill="#06b6d4" opacity="0.8"/>
+  </g>
+  
+  <g transform="translate(90, 68)">
+    <rect x="0" y="0" width="18" height="22" rx="2" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <line x1="3" y1="5" x2="14" y2="5" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="3" y1="9" x2="12" y2="9" stroke="#8b5cf6" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <line x1="3" y1="13" x2="10" y2="13" stroke="#8b5cf6" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  </g>
+</svg>

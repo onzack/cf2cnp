@@ -1,0 +1,66 @@
+name: Publish Helm Chart
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'helm/**'
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  publish-helm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'latest'
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ${{ env.REGISTRY }} --username ${{ github.actor }} --password-stdin
+
+      - name: Get chart version
+        id: chart_version
+        run: |
+          CHART_VERSION=$(grep '^version:' helm/cf2cnp/Chart.yaml | awk '{print $2}')
+          echo "version=$CHART_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update chart version for tags
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          sed -i "s/^version:.*/version: $TAG_VERSION/" helm/cf2cnp/Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: \"$TAG_VERSION\"/" helm/cf2cnp/Chart.yaml
+
+      - name: Package Helm chart
+        run: helm package helm/cf2cnp --destination ./
+
+      - name: Push Helm chart to GHCR
+        run: |
+          CHART_PACKAGE=$(ls cf2cnp-*.tgz)
+          helm push $CHART_PACKAGE oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/helm-charts
+
+      - name: Summary
+        run: |
+          echo "### Helm Chart Published" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Chart pushed to: \`oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/helm-charts/cf2cnp\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Install with:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "helm install cf2cnp oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/helm-charts/cf2cnp" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

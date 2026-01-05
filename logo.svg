@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <!-- Gradient for main hexagon -->
+    <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Glow effect -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Inner shadow -->
+    <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feOffset dx="0" dy="4"/>
+      <feGaussianBlur stdDeviation="4" result="offset-blur"/>
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+      <feFlood flood-color="#000" flood-opacity="0.2" result="color"/>
+      <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
+      <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  
+  <!-- Background circle with subtle gradient -->
+  <circle cx="256" cy="256" r="240" fill="#0f172a"/>
+  <circle cx="256" cy="256" r="238" fill="none" stroke="url(#hexGrad)" stroke-width="3" opacity="0.6"/>
+  
+  <!-- Main hexagon shape (representing Cilium) -->
+  <path d="M256 60 L426 158 L426 354 L256 452 L86 354 L86 158 Z" 
+        fill="none" 
+        stroke="url(#hexGrad)" 
+        stroke-width="6" 
+        stroke-linejoin="round"
+        filter="url(#glow)"
+        opacity="0.8"/>
+  
+  <!-- Inner hexagon pattern -->
+  <path d="M256 100 L386 178 L386 334 L256 412 L126 334 L126 178 Z" 
+        fill="none" 
+        stroke="#06b6d4" 
+        stroke-width="2" 
+        stroke-linejoin="round"
+        opacity="0.4"/>
+  
+  <!-- Flow lines (left side - representing incoming flows) -->
+  <g opacity="0.9">
+    <!-- Flow 1 -->
+    <path d="M100 200 Q160 200, 190 230" fill="none" stroke="#06b6d4" stroke-width="4" stroke-linecap="round">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;100,0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="100" cy="200" r="8" fill="#06b6d4"/>
+    
+    <!-- Flow 2 -->
+    <path d="M80 256 Q150 256, 190 256" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;100,0" dur="2s" repeatCount="indefinite" begin="0.3s"/>
+    </path>
+    <circle cx="80" cy="256" r="8" fill="#8b5cf6"/>
+    
+    <!-- Flow 3 -->
+    <path d="M100 312 Q160 312, 190 282" fill="none" stroke="#ec4899" stroke-width="4" stroke-linecap="round">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;100,0" dur="2s" repeatCount="indefinite" begin="0.6s"/>
+    </path>
+    <circle cx="100" cy="312" r="8" fill="#ec4899"/>
+  </g>
+  
+  <!-- Central transformation symbol -->
+  <g filter="url(#innerShadow)">
+    <!-- Conversion box -->
+    <rect x="200" y="206" width="112" height="100" rx="12" fill="#1e293b" stroke="url(#hexGrad)" stroke-width="3"/>
+    
+    <!-- Arrow symbol inside -->
+    <path d="M235 256 L277 256 M262 238 L280 256 L262 274" 
+          fill="none" 
+          stroke="#f8fafc" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Policy output (right side - representing generated policies) -->
+  <g opacity="0.9">
+    <!-- Policy document 1 -->
+    <g transform="translate(340, 180)">
+      <rect x="0" y="0" width="60" height="75" rx="6" fill="#1e293b" stroke="#06b6d4" stroke-width="2"/>
+      <line x1="10" y1="15" x2="50" y2="15" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/>
+      <line x1="10" y1="28" x2="40" y2="28" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <line x1="10" y1="41" x2="45" y2="41" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <line x1="10" y1="54" x2="35" y2="54" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <!-- Shield icon (security/policy) -->
+      <path d="M30 60 L30 65 Q30 72, 37 75 Q44 72, 44 65 L44 60 Z" fill="#06b6d4" opacity="0.8"/>
+    </g>
+    
+    <!-- Policy document 2 -->
+    <g transform="translate(360, 260)">
+      <rect x="0" y="0" width="55" height="70" rx="6" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+      <line x1="8" y1="14" x2="45" y2="14" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"/>
+      <line x1="8" y1="26" x2="38" y2="26" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <line x1="8" y1="38" x2="42" y2="38" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <line x1="8" y1="50" x2="32" y2="50" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <!-- Shield icon -->
+      <path d="M27 55 L27 60 Q27 66, 33 69 Q39 66, 39 60 L39 55 Z" fill="#8b5cf6" opacity="0.8"/>
+    </g>
+  </g>
+  
+  <!-- Connection lines from transform to policies -->
+  <path d="M312 240 Q340 220, 340 200" fill="none" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4,4" opacity="0.6"/>
+  <path d="M312 280 Q340 290, 360 295" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4,4" opacity="0.6"/>
+  
+  <!-- Network nodes decoration -->
+  <g opacity="0.5">
+    <circle cx="140" cy="140" r="4" fill="#06b6d4"/>
+    <circle cx="372" cy="140" r="4" fill="#8b5cf6"/>
+    <circle cx="140" cy="372" r="4" fill="#ec4899"/>
+    <circle cx="372" cy="372" r="4" fill="#06b6d4"/>
+  </g>
+</svg>
