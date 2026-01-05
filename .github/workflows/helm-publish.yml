@@ -8,7 +8,7 @@ on:
     paths:
       - 'helm/**'
     tags:
-      - 'v*'
+      - '*'
   workflow_dispatch:
 
 env:

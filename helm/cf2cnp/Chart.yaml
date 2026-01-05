@@ -2,8 +2,8 @@ apiVersion: v2
 name: cf2cnp
 description: A Helm chart for CF2CNP - Cilium Flow to CiliumNetworkPolicy converter
 type: application
-version: 0.1.0
-appVersion: "0.1.0"
+version: 0.3.1
+appVersion: "0.3.1"
 keywords:
   - cilium
   - network-policy
