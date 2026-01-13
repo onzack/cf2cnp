@@ -5,15 +5,13 @@ A CLI tool that generates CiliumNetworkPolicies from Hubble flow data. This tool
 ## Features
 
 - **Automatic Policy Generation**: Reads Hubble flow JSON files and generates CiliumNetworkPolicy YAML files
-- **Smart Label Filtering**: Extracts only relevant app labels (`app.kubernetes.io/name`, `app.kubernetes.io/component`, `app.kubernetes.io/instance`) with fallback to `app` label
+- **Smart Label Filtering**: Extracts only relevant app labels (see [label Selection](#label-selection))
 - **Cross-Namespace Support**: Automatically adds namespace labels for cross-namespace traffic
 - **FQDN Egress Support**: Generates proper `toFQDNs` rules with required DNS resolution rules for external traffic
 - **Flow Aggregation**: Combines multiple flows with the same source/destination into a single policy with multiple ports
 - **HTTP Server Mode**: Run as a containerized service to generate policies via HTTP API
 
-> **Note:** This project was created with the help of AI. While I have extensive experience with Kubernetes and Cilium, I do not have the Go programming expertise to write this tool from scratch—AI assistance made it possible to bring this idea to life and share it with the community.  
->  
-> **Caution:** Please be careful when using this tool in production environments. Always review generated policies before applying them to your cluster.
+> **Caution:** This project was created with the help of AI. While I have extensive experience with Kubernetes and Cilium, I do not have the Go programming expertise to write this tool from scratch. AI assistance made it possible to bring this idea to life and share it with the community. Please be careful when using this tool in production environments. Always review generated policies before applying them to your cluster.
 
 ## Building
 
@@ -31,6 +29,10 @@ go build -o cf2cnp ./cmd/cf2cnp
 go build -o cf2cnp.exe ./cmd/cf2cnp
 ```
 
+## Installation
+
+The easiest way to use `CF2CNP` is to deploy it together with the [hubble-observer Helm chart](https://github.com/onzack/hubble-observer). This chart installs both the Hubble observer (to collect network flow data) and `CF2CNP` into your Kubernetes cluster, so you can generate policies directly from observed traffic. You can find installation instructions and configuration options for the Helm chart in the [hubble-observer Helm chart repository](https://github.com/onzack/hubble-observer).
+
 ## Usage
 
 The tool supports two modes of operation:
@@ -45,16 +47,16 @@ cf2cnp generate --input <input-directory> --output <output-directory>
 
 #### Flags
 
-| Flag | Short | Description | Required |
-|------|-------|-------------|----------|
-| `--input` | `-i` | Directory containing Hubble flow JSON files | Yes |
-| `--output` | `-o` | Directory for generated CiliumNetworkPolicy YAML files | Yes |
+| Flag        | Short | Description                                            | Required |
+|-------------|-------|--------------------------------------------------------|----------|
+| `--input`   | `-i`  | Directory containing Hubble flow JSON files            | Yes      |
+| `--output`  | `-o`  | Directory for generated CiliumNetworkPolicy YAML files | Yes      |
 
 #### Example
 
 ```bash
-# Generate policies from example flows
-cf2cnp generate --input ./example-flows --output ./generated-policies
+# Generate policies from an folder with Cilium flows in it.
+cf2cnp generate --input ./inputfolder --output ./generated-policies
 ```
 
 ### 2. HTTP Server Mode
@@ -67,17 +69,19 @@ cf2cnp serve --port 8080
 
 #### Server Flags
 
-| Flag | Short | Description | Default |
-|------|-------|-------------|---------|
-| `--port` | `-p` | Port to listen on | 8080 |
+| Flag      | Short | Type    | Description                | Default |
+|-----------|-------|---------|----------------------------|---------|
+| `--port`  | `-p`  | int     | Port number to listen on   | `8080`  |
+
+---
 
 #### API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/generate` | Send Hubble flow JSON, receive CiliumNetworkPolicy YAML |
-| `GET` | `/health` | Health check endpoint |
-| `GET` | `/` | Web UI for testing |
+| Method | Endpoint       | Description                                              | Request Body                  | Response            |
+|--------|---------------|-----------------------------------------------------------|-------------------------------|---------------------|
+| `POST` | `/generate`   | Generate policy from Hubble flow JSON                     | Hubble flow JSON              | CiliumNetworkPolicy |
+| `GET`  | `/health`     | Health check for the service                              | _none_                        | Status message      |
+| `GET`  | `/`           | Access the integrated Web UI for testing and generation   | _none_                        | Web UI page         |
 
 #### Example: Using curl
 
