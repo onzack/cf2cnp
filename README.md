@@ -108,7 +108,7 @@ docker build -t cf2cnp .
 ### Run the container
 
 ```bash
-docker run -p 8080:8080 cf2cnp
+docker run -p 8080:8080 cf2cnp serve
 ```
 
 The server will be available at `http://localhost:8080`.
