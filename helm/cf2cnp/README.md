@@ -37,6 +37,11 @@ The following table lists the configurable parameters of the CF2CNP chart and th
 | `ingress.annotations` | Ingress annotations | `{}` |
 | `ingress.hosts` | Ingress hosts configuration | See values.yaml |
 | `ingress.tls` | Ingress TLS configuration | `[]` |
+| `httpRoute.enabled` | Enable HTTPRoute (Gateway API) | `false` |
+| `httpRoute.annotations` | HTTPRoute annotations | `{}` |
+| `httpRoute.parentRefs` | Gateways the route is attached to | `[]` |
+| `httpRoute.hostnames` | HTTPRoute hostnames | See values.yaml |
+| `httpRoute.paths` | Path matches of the route | See values.yaml |
 | `extraManifests` | Extra Kubernetes manifests to deploy | `[]` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `nodeSelector` | Node selector | `{}` |
