@@ -59,6 +59,19 @@ ingress:
   #    hosts:
   #      - cf2cnp.local
 
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs: []
+  #  - name: my-gateway
+  #    namespace: gateway-system
+  #    sectionName: https
+  hostnames:
+    - cf2cnp.local
+  paths:
+    - path: /
+      pathType: PathPrefix
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
